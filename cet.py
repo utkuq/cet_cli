@@ -95,6 +95,7 @@ if a == b == c == d:
    
     matrix = copy.deepcopy(Fij)
     result = []
+    sum = 0
     for i in range(len(matrix)):
         row=[]
         for j in range(len(matrix[i])):
@@ -103,15 +104,18 @@ if a == b == c == d:
                 element = matrix[i][j] * productionNumber[j]
                 row.append(element)
                 #print('if worked')
+                sum += element
             else:
                 row.append(matrix[i][j])
                 #print('else worked')
         result.append(row)
     
+    print(result)
+    print(f'sum issss: {sum}')
+    
     sumPiFij = 0
-    for element in result:
-        if isinstance(element,(int,float)):
-            sumPiFij += element
+    for i in range(len(result)):
+        print('zzzzz')
     
     print(f'sum is {sumPiFij}')
    
