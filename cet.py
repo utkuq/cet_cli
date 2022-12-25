@@ -3,11 +3,19 @@ from pick import pick
 from tabulate import tabulate
 from pyfiglet import figlet_format
 import copy
+import platform
 
-os.system('cls')
+operatingSystem = platform.uname().system                # determining type of the system in order to change clear command between OSs
+if operatingSystem == 'Windows':
+    clearVariable = 'cls'
+elif operatingSystem == 'Linux':
+    clearVariable = 'clear'
+
+
+os.system(clearVariable)
 
 print(figlet_format('C  E   T \n'))
-print(figlet_format('Civil Engineering Tool \n', font='digital'))
+print(figlet_format('Civil Engineering Tools \n', font='digital'))
 
 #zone IDs
 zoneIDs = [str(x) for x in input('Enter zone IDs with a space.\n').split()]
@@ -15,28 +23,28 @@ for i in range(len(zoneIDs)):
     zoneIDs[i] = zoneIDs[i].upper()
 a = len(zoneIDs)
 
-os.system("cls")
+os.system(clearVariable)
 
 #population numbers Np
 populationNumber = [int(y) for y in input('Enter population numbers seperating with a space. (Np)\n').split()]
 b = len(populationNumber)
 
-os.system("cls")
+os.system(clearVariable)
 
 #Floor Area Af
 floorArea = [int(z) for z in input('Enter floor areas with a space. (Af) \n').split()]
 c = len(floorArea)
 
-os.system("cls")
+os.system(clearVariable)
 
 #Employment number Ne
 employmentNumber = [int(t) for t in input('Enter employment number with a space. (Ne)\n').split()]
 d = len(employmentNumber)
 
-os.system('cls')
+os.system(clearVariable)
 
 if a == b == c == d:
-    os.system("cls")
+    os.system(clearVariable)
     print('GIVEN VALUES')
     print('-'*50 +'\n')
     print(f'Entered zone IDs: \n {zoneIDs} \n ')
@@ -63,9 +71,9 @@ if a == b == c == d:
 
     while counter<len(zoneIDs):
         pointName = zoneIDs[counter]
-        os.system('cls')
+        os.system(clearVariable)
         minutes = [int(o) for o in input(f'Please enter the minutes needed to go from point {pointName} to others with a single space. \nKeep in mind that the order of the numbers are important, enter the numbers as same order as the Zone IDs. \n').split()]
-        os.system('cls')
+        os.system(clearVariable)
         if len(minutes) == len(zoneIDs)-1:
             minutesList.append(minutes)
             #print(minutesList)
@@ -77,15 +85,35 @@ if a == b == c == d:
     for i in range(len(minutesList)):
         minutesList[i].insert(i,'-')
     
-    Fij = copy.deepcopy(minutesList)                # copying minutes from original list to Fij list in order to keep minutesList as it is.  
+    
+    Fij = copy.deepcopy(minutesList)                # copying minutes from original list to Fij list in order to keep minutesList as it is.    
     for i in range(len(Fij)):
         for j in range(len(Fij[i])):
-            if isinstance(Fij[i][j], int):          # checking if the selected element has a type of int
+            if isinstance(Fij[i][j], int or float):          # checking if the selected element has a type of int
                 Fij[i][j] **= -2                    # calculating Fij values
+
+   
+    matrix = copy.deepcopy(Fij)
+    result = []
+    for i in range(len(matrix)):
+        row=[]
+        for j in range(len(matrix[i])):
+            # if isinstance(matrix[i][j], int or float):
+            if matrix[i][j] is int or float:
+                element = matrix[i][j] * productionNumber[j]
+                row.append(element)
+                #print('if worked')
+            else:
+                row.append(matrix[i][j])
+                #print('else worked')
+        result.append(row)
+   
+
                            
     for i in range(len(minutesList)):
         tableMinutesList = minutesList[i]           # creating a new list only for creating table
         tableFijList = Fij[i]                       # creating a new list only for creating table
+        tablePiFijList = result[i]                   # creating a new list only for creating table
         print(f'For zone {zoneIDs[i]} \n')
-        print(tabulate({'Zone #': zoneIDs, 'Np': populationNumber, 'Af': floorArea, 'Ne': employmentNumber, 'Pi (3*Np - 500)': productionNumber, 'Ai (3*Ne + 75*Af + 400)': attractionNumber, 'C [minutes]': tableMinutesList, 'Fij (C^-2)': tableFijList}, headers='keys'))
+        print(tabulate({'Zone #': zoneIDs, 'Np': populationNumber, 'Af': floorArea, 'Ne': employmentNumber, 'Pi (3*Np - 500)': productionNumber, 'Ai (3*Ne + 75*Af + 400)': attractionNumber, 'C [minutes]': tableMinutesList, 'Fij (C^-2)': tableFijList, 'Pi * Fij': tablePiFijList}, headers='keys'))
         print('\n'*2)
