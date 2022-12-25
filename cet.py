@@ -98,8 +98,8 @@ if a == b == c == d:
     for i in range(len(matrix)):
         row=[]
         for j in range(len(matrix[i])):
-            # if isinstance(matrix[i][j], int or float):
-            if matrix[i][j] is int or float:
+            if isinstance(matrix[i][j], (int, float)):
+            # if matrix[i][j] is int or float:
                 element = matrix[i][j] * productionNumber[j]
                 row.append(element)
                 #print('if worked')
@@ -107,6 +107,13 @@ if a == b == c == d:
                 row.append(matrix[i][j])
                 #print('else worked')
         result.append(row)
+    
+    sumPiFij = 0
+    for element in result:
+        if isinstance(element,(int,float)):
+            sumPiFij += element
+    
+    print(f'sum is {sumPiFij}')
    
 
                            
