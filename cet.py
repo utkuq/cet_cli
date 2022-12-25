@@ -2,6 +2,7 @@ import os
 from pick import pick
 from tabulate import tabulate
 from pyfiglet import figlet_format
+import copy
 
 os.system('cls')
 
@@ -10,6 +11,8 @@ print(figlet_format('Civil Engineering Tool \n', font='digital'))
 
 #zone IDs
 zoneIDs = [str(x) for x in input('Enter zone IDs with a space.\n').split()]
+for i in range(len(zoneIDs)):
+    zoneIDs[i] = zoneIDs[i].upper()
 a = len(zoneIDs)
 
 os.system("cls")
@@ -60,6 +63,7 @@ if a == b == c == d:
 
     while counter<len(zoneIDs):
         pointName = zoneIDs[counter]
+        os.system('cls')
         minutes = [int(o) for o in input(f'Please enter the minutes needed to go from point {pointName} to others with a single space. \nKeep in mind that the order of the numbers are important, enter the numbers as same order as the Zone IDs. \n').split()]
         os.system('cls')
         if len(minutes) == len(zoneIDs)-1:
@@ -72,8 +76,16 @@ if a == b == c == d:
             counter = 0
     for i in range(len(minutesList)):
         minutesList[i].insert(i,'-')
+    
+    Fij = copy.deepcopy(minutesList)                # copying minutes from original list to Fij list in order to keep minutesList as it is.  
+    for i in range(len(Fij)):
+        for j in range(len(Fij[i])):
+            if isinstance(Fij[i][j], int):          # checking if the selected element has a type of int
+                Fij[i][j] **= -2                    # calculating Fij values
                            
     for i in range(len(minutesList)):
-        tableList = minutesList[i]
-        print(tabulate({'Zone #': zoneIDs, 'Np': populationNumber, 'Af': floorArea, 'Ne': employmentNumber, 'Pi': productionNumber, 'Ai': attractionNumber, 'C [minutes]': tableList}, headers='keys'))
+        tableMinutesList = minutesList[i]           # creating a new list only for creating table
+        tableFijList = Fij[i]                       # creating a new list only for creating table
+        print(f'For zone {zoneIDs[i]} \n')
+        print(tabulate({'Zone #': zoneIDs, 'Np': populationNumber, 'Af': floorArea, 'Ne': employmentNumber, 'Pi (3*Np - 500)': productionNumber, 'Ai (3*Ne + 75*Af + 400)': attractionNumber, 'C [minutes]': tableMinutesList, 'Fij (C^-2)': tableFijList}, headers='keys'))
         print('\n'*2)
