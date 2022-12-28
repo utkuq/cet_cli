@@ -232,23 +232,22 @@ if a == b == c == d:
     ########################################################################################################################
     aPFCopyList = copy.deepcopy(aPF)
     aPFSumCopyList = copy.deepcopy(aPFSumList)
-    print(aPFSumCopyList)
+    # print(aPFSumCopyList)
     
+    # adding each sum values to the aPFCopyList
     for i in range(len(aPFCopyList)):
         element = aPFSumCopyList[i]
         aPFCopyList[i].append(element)
-        
+    
+    # adding the string 'Sum' to zoneIDs list in order to make a better looking table    
     zoneIDsWithSum = copy.deepcopy(zoneIDs)
     zoneIDsWithSum.append('Sum')
             
-    print(aPFCopyList)
+    # print(aPFCopyList)
     
-    
+    # making addition to same indiced elements in the list. For example: list[0][0]+list[1][0]+list[2][0] or list[0][1]+list[1][1]+list[2][1]
     aPFCopyList2 = copy.deepcopy(aPF)
-    
     aPFResult = [0 for _ in aPFCopyList2[0]]
-
-    
     for sublist in aPFCopyList2:
         for i, element in enumerate(sublist):
             if isinstance(element, (int, float)):
@@ -257,10 +256,19 @@ if a == b == c == d:
                 aPFResult[i] = elementRound
             else:
                 pass
-    
-    aPFResult.append('-')            
-    print(aPFResult)
+               
+    # print(aPFResult)
 
     aPFCopyList.append(aPFResult)
-    print(tabulate(aPFCopyList, headers=zoneIDsWithSum, showindex=zoneIDsWithSum, numalign='center', stralign='center', tablefmt='outline'))        
-    # print(tabulate(aPFCopyList, numalign='center', stralign='center', tablefmt='outline'))        
+    print(tabulate(aPFCopyList, headers=zoneIDsWithSum, showindex=zoneIDsWithSum, numalign='center', stralign='center', tablefmt='outline'))               
+
+    
+    # making comparison between sum1 and sum2
+    sum1 = copy.deepcopy(aPFSumCopyList)
+    sum2 = copy.deepcopy(aPFResult)
+    # print(f'sum1 is: {sum1}\n and sum2 is: {sum2}\n')
+    
+    if sum1 != sum2:
+        pass
+    else:
+        print(f'{sum1} and {sum2} are already equal.')
