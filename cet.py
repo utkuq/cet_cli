@@ -175,6 +175,7 @@ if a == b == c == d:
     # calculating the sum of the list above
     aPFSumList = sum_lists(aPF)
     
+    
     title = 'Would you like to save tables as .txt file?'
     options = ['Yes', 'No']
 
@@ -199,6 +200,9 @@ if a == b == c == d:
             tablo.close
                 
             print(f'Tables for Phase 2 are saved in the file "phase_2 - tables.txt" ')
+            
+            
+            print(tabulate(aPF))
     else:
         # printing results                       
         for i in range(len(minutesList)):
@@ -219,12 +223,44 @@ if a == b == c == d:
             print(f'Sum for Ai * ((Pi * Fij) / sigma(Pi * Fij)): {aPFSumList[i]}')
             print('\n'*2)
     
+    
+    
+    
+    
     ########################################################################################################################
     ############################################ PHASE 3 CALCULATIONS ######################################################
     ########################################################################################################################
-
+    aPFCopyList = copy.deepcopy(aPF)
+    aPFSumCopyList = copy.deepcopy(aPFSumList)
+    print(aPFSumCopyList)
     
-    
+    for i in range(len(aPFCopyList)):
+        element = aPFSumCopyList[i]
+        aPFCopyList[i].append(element)
         
+    zoneIDsWithSum = copy.deepcopy(zoneIDs)
+    zoneIDsWithSum.append('Sum')
+            
+    print(aPFCopyList)
+    
+    
+    aPFCopyList2 = copy.deepcopy(aPF)
+    
+    aPFResult = [0 for _ in aPFCopyList2[0]]
 
+    
+    for sublist in aPFCopyList2:
+        for i, element in enumerate(sublist):
+            if isinstance(element, (int, float)):
+                elementRound = aPFResult[i] + element
+                elementRound = round(elementRound, 3)
+                aPFResult[i] = elementRound
+            else:
+                pass
+    
+    aPFResult.append('-')            
+    print(aPFResult)
 
+    aPFCopyList.append(aPFResult)
+    print(tabulate(aPFCopyList, headers=zoneIDsWithSum, showindex=zoneIDsWithSum, numalign='center', stralign='center', tablefmt='outline'))        
+    # print(tabulate(aPFCopyList, numalign='center', stralign='center', tablefmt='outline'))        
